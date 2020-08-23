@@ -1,0 +1,25 @@
+.resume{
+    padding-top: 1em;
+    width:17%;
+    height:750px;
+    background-color: skyblue;
+    float:left;
+    color:white;
+    font-size: 1.5em;
+    text-align: center;
+}
+.basic, .contact, .ability, .edu, .exp{
+    padding-left: 1em;
+    width:70%;
+    height:20px;
+    display: inline-block;
+}
+.title{
+    font-size: 1.3em;
+}
+.content{
+    font-size:1.2em;
+}
+.ability .content strong, .edu .content strong, .exp .content strong{
+    display:block;
+}
