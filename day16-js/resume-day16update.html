@@ -5,11 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resume</title>
 	<link rel="stylesheet" type="text/css" href="css/style_3.css" />
-	<script>
-		document.getElementById("my-btn").onclick = function() {
-            document.getElementById("myself").innerHTML = 'Just Kidding';
-        }
-	</script>
+	
 </head>
 <body>
     <div class="resume">
@@ -80,5 +76,11 @@
 			</div>	
 		</div>
 	</div>
+        <script>
+		document.getElementById("my-btn").onclick = function() {
+            document.getElementById("myself").innerHTML = 'Just Kidding';
+        }
+	//script 放在head里不生效，原因待学习
+	</script>
 </body>
 </html>
