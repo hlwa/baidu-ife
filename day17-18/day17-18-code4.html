@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Table</title>    
+</head>
+<body>
+    <p>Time Table</p>
+    <table id="timetable">
+
+    </table>
+    <script>
+        let timeTable = document.getElementById('timetable');
+        for(let n=1; n<10; n++){
+            for(let m=1; m<= n; m++){
+                let t = n * m;
+                console.log( '', n, "*", m, "=", t);
+                let childTable = document.createElement('tr');
+                childTable.innerHTML = n + '*'+ m +'='+ t;
+                timeTable.appendChild(childTable);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+.resume{
+    font-size: 1.5em;
+    font-weight: 100;
+}
+.title{
+    font-size:1.3em;
+    font-weight: 80;
+}
+.content{
+    font-size:1.2em;
+    font-weight: 60;
+}
+.ability .content strong, .edu .content strong, .exp .content strong{
+    display:block;
+}

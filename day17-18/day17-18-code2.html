@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">    
+    <title>IFE ECMAScript</title>
+</head>
+<body>        
+    <input id="dec-number" type="number" placeholder="输入一个十进制非负整数">
+    <input id="bin-bit" type="number" placeholder="输入转化后二进制数字位数">
+    <button id="trans-btn">转化为二进制</button>
+    <p id="result">运算结果</p>
+    <script>
+        let transBtn = document.getElementById('trans-btn');
+        let decNumber = document.getElementById('dec-number');//获取输入的数字
+        let binBit = document.getElementById('bin-bit');//get the customized digit length
+        let binNumber = '';
+        let result = document.getElementById('result');       
+        //实现点击转按钮时，转换函数运行
+        transBtn.onclick = dec2bin;
+        //定义函数，将输入的十进制数字转化为二进制，并显示在result的p标签内。
+        function dec2bin() {
+            let x = Number(decNumber.value);
+            let y = binNumber;
+            if(x <= 0 ){
+                alert("Please input the right number.");
+            }else{
+                while(x > 0){
+                    y += ((x % 2).toString());
+                    x = Math.floor(x / 2);
+                }
+                //比较输入长度和实际长度
+                console.log(binBit.value);
+                console.log(y.length);
+                if (Number(binBit.value) >= y.length){//输入长度大于实际长度的情况，需要最前端用0补齐
+                    let z = Number(binBit.value) - (y.length);
+                    for( let i=0; i <z; i++){
+                        y += i*0;
+                    }
+                    result.innerHTML= y.split('').reverse().join(''); //将y倒序后显示结果
+                }else{// 如果bin-bit小于转化后的二进制本身位数，则使用原本的位数，如dec-number为5，bin-bit为2，依然输出101，但同时在console中报个错
+                    result.innerHTML= y.split('').reverse().join(''); //将y倒序后显示结果
+                    console.log('Please input the right length');
+                }
+            }          
+        }
+// 新的需求是，转化显示后的二进制数为bin-bit中输入的数字宽度，例如
+// dec-number为5，bin-bit为5，则转化后数字为00101
+
+    </script>
+
+
+
+</body>
+</html>
