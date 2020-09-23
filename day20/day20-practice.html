@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul id="test">
+        <li>
+            <p>试着点击不同内容，并查看操作台打印内容</p>
+        </li>
+        <li>
+            11111111111
+        </li>
+        <li>
+            <div>
+                22222222
+            </div>
+        </li>
+        <li>
+            <span>3333333333</span>
+        </li>
+        <li>4444444</li>
+    </ul>
+    <script>
+        var oUl = document.getElementById('test');
+    oUl.addEventListener('click',function(ev){
+        var target = ev.target;
+        while(target !== oUl ){
+            if(target.tagName.toLowerCase() !== 'li'){
+                console.log('li not clicked~');
+                target = target.parentNode;
+                console.log('没关系，可以获取父元素，即： '+target.tagName);
+            }else{
+                console.log('li clicked~');
+                console.log('真好，子元素就是：'+target.tagName);
+            }
+            break;           
+        }
+    })
+    </script>
+</body>
+</html>

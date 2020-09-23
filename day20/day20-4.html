@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="fade-obj" style="width:300px;height:300px;background:#000"></div>
+    <button id="fade-btn">淡出</button>
+    <script>
+        let fadeObj = document.querySelector('#fade-obj');
+        let fadeBtn = document.querySelector('#fade-btn');
+        let opaCount = 1;
+        function timeOut(){
+            fadeBtn.disabled = true;
+            opaCount -= 0.05;
+            fadeObj.style.opacity = opaCount;
+            let timeCount = setTimeout("timeOut()",100);
+            if(opaCount<=0){
+                clearTimeout(timeCount);
+                fadeBtn.disabled = false;
+                fadeBtn.innerHTML = '淡入';
+                fadeBtn.removeEventListener('click',timeOut)
+                fadeBtn.addEventListener('click',timeIn)
+            }
+        }
+        function timeIn(){
+            fadeBtn.disabled = true;
+            opaCount += 0.05;
+            fadeObj.style.opacity = opaCount;
+            let timeCount = setTimeout("timeIn()",100);
+            if(opaCount>=1){
+                clearTimeout(timeCount);
+                fadeBtn.disabled = false;
+                fadeBtn.innerHTML = '淡出';
+                fadeBtn.removeEventListener('click',timeIn)
+                fadeBtn.addEventListener('click',timeOut)
+            }
+        }
+        fadeBtn.onclick=timeOut;
+        
+    </script>
+</body>
+</html>

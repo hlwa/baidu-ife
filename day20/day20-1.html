@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input id="name" type="text">    
+    <button id="submit-btn">Submit</button>
+    <script>
+        let input = document.querySelector('input');
+        let button = document.querySelector('button');
+        
+        //当点击按钮 submit-btn 时，在console中输出 name 中的内容     
+        function clickConsloe(){
+            console.log(input.value);
+        }
+        button.onclick = clickConsloe;
+
+                
+        input.onkeydown =  function(event){//此处如果用onkeypress，则无法监控键盘esc等系统按键，只能监控字母和数字键；
+            
+            //在输入过程中，如果按 ESC 键，则把输入框中的内容清空
+                if(event.key == 'Escape'){
+                    //按下esc要执行的事件
+                    input.value = '';
+                }
+            //在输入过程中，如果按回车键，则同样执行上一条的需求
+                else if(event.key == 'Enter'){
+                    //按下回车要执行的事件
+                    console.log(input.value);  
+                   
+                }
+
+        }
+    </script>
+</body>
+</html>

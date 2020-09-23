@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div{
+            height:480px;
+            width: 480px;
+        }
+    </style>
+</head>
+<body>
+    <div id="image"></div>
+    <script>
+        let image = document.querySelector('#image');
+        let imageUrl = 'erik_ce204002.jpg';
+        image.style.backgroundImage = 'url(' + imageUrl +')';
+        image.style.backgroundRepeat = 'no-repeat';
+
+        function imageAnimation(){           
+            var yPosition = 0;           
+            function runImage(){
+                image.style.backgroundPositionY = yPosition +'px';
+                yPosition = yPosition - 480;
+                if(yPosition <= -8160){
+                    yPosition = 0;
+                }
+                setTimeout(runImage,80);
+            }
+            runImage();
+        }
+        imageAnimation();
+    </script>
+</body>
+</html>

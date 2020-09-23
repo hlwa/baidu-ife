@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>与页面对话4</title>
+</head>
+<body>
+
+    <div id="fade-obj" style="width:300px;height:300px;background:#000;opacity: 1;"></div>
+    <button id="fade-btn" onclick="beLowOpa()">淡出</button>
+    <script>
+        var opaCount = 1;
+        var btn= document.getElementById("fade-btn");
+
+        function beLowOpa() {
+            btn.disabled = true;
+            opaCount -= 0.05;
+            document.getElementById("fade-obj").style.opacity = opaCount;
+            var t = setTimeout("beLowOpa()", 100);
+            if (opaCount <= 0) {
+                clearTimeout(t);
+                btn.disabled = false;
+                btn.innerHTML = "淡入";
+                btn.addEventListener("click", beHighOpa);
+            }
+        }
+        function beHighOpa() {
+            btn.disabled = true;
+            opaCount += 0.05;
+            document.getElementById("fade-obj").style.opacity = opaCount;
+            var t = setTimeout("beHighOpa()", 100);
+            if (opaCount >= 1) {
+                clearTimeout(t);
+                btn.disabled = false;
+                btn.innerHTML = "淡出";
+                btn.addEventListener("click", beLowOpa);
+            }
+        }
+    </script>
+</body>
+
+</html>
