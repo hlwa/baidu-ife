@@ -18,9 +18,16 @@
         let imageUrl = 'erik_ce204002.jpg';
         image.style.backgroundImage = 'url(' + imageUrl +')';
         image.style.backgroundRepeat = 'no-repeat';
-
-        function imageAnimation(){           
-            var yPosition = 0;           
+        var yPosition = 0;
+        setTimeout(function runImage(){
+                image.style.backgroundPosition = '0' + yPosition +'px';
+                //或者写image.style.backgroundPositionY = yPosition +'px';
+                yPosition = yPosition - 480;//改变图片的y位置，-480表示向上移动一格
+                if(yPosition <= -8160){//8160=480*17，图片共有17格
+                    yPosition = 0;//播放完成会到初始位置，重新播放
+                }
+                setTimeout(runImage,120);//嵌套setTimeout
+            },80);           
             /*或者
             function runImage(){
                 image.style.backgroundPosition = '0' + yPosition +'px';
@@ -32,16 +39,16 @@
                 setTimeout(runImage,80);
             }
             runImage();*/
+            /*又或者
             setInterval(function(){
                 image.style.backgroundPosition = '0' + yPosition +'px';
                 //或者写image.style.backgroundPositionY = yPosition +'px';
-                yPosition = yPosition - 480;//y位置移动
+                yPosition = yPosition - 480;//改变图片的y位置，-480表示向上移动一格
                 if(yPosition <= -8160){//8160=480*17，图片共有17格
-                    yPosition = 0;//，播放完成会到初始位置，重新播放
+                    yPosition = 0;//播放完成会到初始位置，重新播放
                 }
-            },120)
-        }
-        imageAnimation();
+            },120)//120毫秒一帧*/
+            
     </script>
 </body>
 </html>
