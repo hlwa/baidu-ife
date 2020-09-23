@@ -21,15 +21,25 @@
 
         function imageAnimation(){           
             var yPosition = 0;           
+            /*或者
             function runImage(){
-                image.style.backgroundPositionY = yPosition +'px';
+                image.style.backgroundPosition = '0' + yPosition +'px';
+                //或者写image.style.backgroundPositionY = yPosition +'px';
                 yPosition = yPosition - 480;
                 if(yPosition <= -8160){
                     yPosition = 0;
                 }
                 setTimeout(runImage,80);
             }
-            runImage();
+            runImage();*/
+            setInterval(function(){
+                image.style.backgroundPosition = '0' + yPosition +'px';
+                //或者写image.style.backgroundPositionY = yPosition +'px';
+                yPosition = yPosition - 480;//y位置移动
+                if(yPosition <= -8160){//8160=480*17，图片共有17格
+                    yPosition = 0;//，播放完成会到初始位置，重新播放
+                }
+            },120)
         }
         imageAnimation();
     </script>
