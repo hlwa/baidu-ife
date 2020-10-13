@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var tree = {
+    "id": 0,
+    "name": "root",
+    "left": {
+        "id": 1,
+        "name": "Simon",
+        "left": {
+            "id": 3,
+            "name": "Carl",
+            "left": {
+                "id": 7,
+                "name": "Lee",
+                "left": {
+                    "id": 11,
+                    "name": "Fate"
+                }
+            },
+            "right": {
+                "id": 8,
+                "name": "Annie",
+                "left": {
+                    "id": 12,
+                    "name": "Saber"
+                }
+            }
+        },
+        "right": {
+            "id": 4,
+            "name": "Tony",
+            "left": {
+                "id": 9,
+                "name": "Candy"
+            }
+        }
+    },
+    "right": {
+        "id": 2,
+        "name": "right",
+        "left": {
+            "id": 5,
+            "name": "Carl",
+        },
+        "right": {
+            "id": 6,
+            "name": "Carl",
+            "right": {
+                "id": 10,
+                "name": "Kai"
+            }        
+        }
+    }
+}
+
+// 假设id和name均不会重复，根据输入name找到对应的id
+/*第一种解
+function findIdByName(name) {
+  var id;
+  function node(tree) {
+      if (tree) {
+          if (tree.name == name) {
+              id = tree.id;
+          }
+      node(tree.left);
+      node(tree.right);
+      }
+  }
+  node(tree);
+  return id;
+}
+console.log(findIdByName("Annie")); // 8
+*/
+
+
+//第二种解
+/*
+ function findIdByName(name, tree) {
+         if(tree==null){
+			 return;
+		 }
+		 if(tree.name==name){
+			 console.log(tree.id);
+			 return;
+		 }
+		 findIdByName(name, tree.left);
+		 findIdByName(name, tree.right);		 
+        }
+      findIdByName("Annie", tree);
+*/
+
+// 假设id和name均不会重复，根据输入id找到对应的name
+/*
+function findNameById(id) {
+    let name;
+    function findName(tree){
+        if(tree){
+            if(id == tree.id){
+                name = tree.name;
+            }
+        findName(tree.left);
+        findName(tree.right);
+        }       
+    }
+    findName(tree);
+    return name;
+}
+console.log(findNameById('4'))
+*/
+/*
+function findNameById(id,tree) {
+        let name;
+    
+        if(tree){
+            if(id == tree.id){
+                name = tree.name;
+                console.log(name);
+                return name;
+            }
+        findNameById(id,tree.left);
+        findNameById(id,tree.right);
+        }    
+    
+}
+findNameById('4',tree)
+*/
+
+
+// 把这个对象中所有的名字以“前序遍历”的方式全部输出到console中
+function getListWithDLR() {
+    let array= new Array();
+    function getList(tree){
+        if(tree){   
+            array.push(tree.name);
+            getList(tree.left);
+            getList(tree.right);           
+        }
+    }
+    getList(tree);
+    console.log(array);
+}
+getListWithDLR()
+// 把这个对象中所有的名字以“中序遍历”的方式全部输出到console中
+function getListWithLDR() {
+    let arrayLdr= new Array();
+    function getList(tree){
+        if(tree){
+            getList(tree.left);
+            arrayLdr.push(tree.name);
+            getList(tree.right);            
+        }
+    }
+    getList(tree);
+    console.log(arrayLdr);
+}
+getListWithLDR()
+// 把这个对象中所有的名字以“后序遍历”的方式全部输出到console中
+function getListWithLRD() {
+    let arrayLrd= new Array();
+    function getList(tree){
+        if(tree){
+            getList(tree.left);
+            getList(tree.right); 
+            arrayLrd.push(tree.name);                      
+        }
+    }
+    getList(tree);
+    console.log(arrayLrd);
+}
+getListWithLRD()
+    </script>
+</body>
+</html>

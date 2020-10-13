@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    function compareAb(a, b) {
+        if (a < b ) {// 按某种排序标准进行比较, a 小于 b
+        return -1;
+        }
+        if (a > b ) {
+        return 1;
+        }
+        // a must be equal to b
+        return 0;
+    }
+        var arrA = [43, 54, 4, -4, 84, 100, 58, 27, 140];
+//将上面数组分别按从大到小以及从小到大进行排序后在console中输出
+console.log('arrA从大到小:'+arrA.sort(compareAb));
+console.log('arrA从小到大:'+arrA.sort(compareAb).reverse());
+
+
+var arrB = ['apple', 'dog', 'cat', 'car', 'zoo', 'orange', 'airplane'];
+//将上面数组分别按字母顺序a-z及z-a进行排序，在console中输出
+console.log('arrB按字母顺序a-z:'+arrB.sort(compareAb));
+console.log('arrB按字母顺序z-a:'+arrB.sort(compareAb).reverse());
+
+var arrC = [[10, 14], [16, 60], [7, 44], [26, 35], [22, 63]];
+//将上面的二维数组，按照每个元素中第二个数从大到小的顺序进行排序输出，输出结果应该为：
+//[[22, 63], [16, 60], [7, 44], [26, 35], [10, 14]]
+function compare(a,b){
+    return (a[1]-b[1]);
+}
+console.log('按照每个元素中第二个数从大到小排序：'+arrC.sort(compare).reverse())
+
+var arrD = [
+    {
+        id: 1,
+        name: 'candy',
+        value: 40
+    }, {
+        id: 2,
+        name: 'Simon',
+        value: 50
+    }, {
+        id: 3,
+        name: 'Tony',
+        value: 45
+    }, {
+        id: 4,
+        name: 'Annie',
+        value: 60
+    }
+];
+//将上面数组分别按元素对象的value值从小到大进行排序后输出
+function compareString(a,b){
+    return(a.value - b.value);
+}
+console.log('按元素对象的value值从小到大进行排序:'+arrD.sort(compareString))
+    </script>
+</body>
+</html>

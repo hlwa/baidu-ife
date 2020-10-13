@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+实现一个字符串头尾去除空格的函数
+注意需要去除的空格，包括全角、半角空格
+暂时不需要学习和使用正则表达式的方式
+*/
+function diyTrim(str) {
+    var result = "";
+    let array = str.split('');//将字符串拆成数组
+    for(let i = 0; i<array.length; i++){
+        if(array[i] == ' '||array[i] == ' '){
+            array[i] = '';//遍历得到的数组，从前往后将头部的空格替换为''
+        }else{
+            break;//循环至遇到不为空的字符串，退出循环
+        }  
+    }
+    for(let n=array.length-1; n>=0; n--){
+        if(array[n] == ' '||array[n] == ' ' ){
+            array[n] = '';//将经过一个遍历的数组从后往前循环将尾部的空格替换为''
+        }else{                        
+            break;//循环至遇到不为空的字符串，退出循环
+        }
+    }
+    result = array.join('');//将经过两次遍历后剩余的数组组合为字符串，得到结果
+    return result
+}
+// 测试用例
+
+/*
+console.log(diyTrim(' a f b    ')); // ->a f b
+console.log(diyTrim('    ffdaf    ')); // ->ffdaf
+console.log(diyTrim('    ffdaf    ')); // ->ffdaf
+console.log(diyTrim('1    ')); // ->1
+console.log(diyTrim('1    ')); // ->1
+console.log(diyTrim('　　f')); // ->f
+console.log(diyTrim('  　  a f b 　　 ')); // ->a f b
+console.log(diyTrim('  　  a f b 　　 ')); // ->a f b
+console.log(diyTrim(' ')); // ->
+console.log(diyTrim('　')); // ->
+console.log(diyTrim('')); // ->
+*/
+
+/*
+去掉字符串str中，连续重复的地方
+*/
+
+function removeRepetition(str) {
+    var result = "";
+    let newArray = str.split('');
+    if(newArray.length>=2){//如果数组长度大于等于2，需要进行去重操作
+        for(let m=newArray.length-1; m > 0; m--){//从后往前遍历数组
+            if(newArray[m]==newArray[m-1]){//如果本元素和相邻的元素相同，则从数组中删除本元素
+                newArray.splice(m,1)
+            }     
+        }
+    }
+    result = newArray.join('');//将去重后的数组合并为字符串
+    return result;
+}
+
+// 测试用例
+console.log(removeRepetition("aaa")); // ->a
+console.log(removeRepetition("abbba")); // ->aba
+console.log(removeRepetition("aabbaabb")); // ->abab
+console.log(removeRepetition("")); // ->
+console.log(removeRepetition("abc")); // ->abc
+    </script>
+</body>
+</html>

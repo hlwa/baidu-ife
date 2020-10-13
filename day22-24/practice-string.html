@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <label>String A:
+            <input id="radio-a" type="radio" checked="true" name="str-obj" value="a">
+        </label>
+        <textarea id="str-a"></textarea>
+        <label>String B:
+            <input id="radio-b" type="radio" name="str-obj" value="b">
+        </label>
+        <textarea id="str-b"></textarea>        
+        <label>Num A：<input id="num-a" type="number" value="0"></label>
+        <label>Num B：<input id="num-b" type="number" value="1"></label>
+    </div>
+    <div>
+        <button onclick = "buttonA()">获取当前选中输入的内容长度</button>
+        <button onclick = "buttonB()">当前选中输入中的第3个字符</button>
+        <button onclick = "buttonC()">把两个输入框的文字连接在一起输出（concat）</button>
+        <button onclick = "buttonD()">输入B中的内容，在输入A的内容中第一次出现的位置（indexOf）</button>
+        <button onclick = "buttonE()">输入A中的内容，在输入B的内容中最后一次出现的位置（lastIndexOf）</button>
+        <button onclick = "buttonF()">使用slice获取选中输入框内容的部分内容，参数为num-a及num-b</button>
+        <button onclick = "buttonG()">当前选中输入框的行数</button>
+        <button onclick = "buttonH()">使用substr获取选中输入框内容的子字符串，参数为num-a及num-b</button>
+        <button onclick = "buttonI()">把所选输入框中的内容全部转为大写</button>
+        <button onclick = "buttonJ()">把所选输入框中的内容全部转为小写</button>
+        <button onclick = "buttonK()">把所选输入框中内容的半角空格全部去除</button>
+        <button onclick = "buttonL()">把所选输入框中内容的a全部替换成另外一个输入框中的内容</button>
+    </div>
+    <p id="result"></p>
+    <script>       
+        let result = document.querySelector('#result');//输出内容DOM
+        let stringA = document.querySelector('#radio-a');//单选框DOM
+        let stringB = document.querySelector('#radio-b');//单选框DOM
+        let inputStrA = document.querySelector('#str-a');//string输入框DOM
+        let inputStrB = document.querySelector('#str-b');//string输入框DOM
+        let numA = document.querySelector('#num-a');//数字输入框DOM
+        let numB = document.querySelector('#num-b'); //数字输入框DOM       
+        function buttonA(){//本函数获取当前选中输入的内容长度
+            if(stringA.checked){
+                result.innerHTML = inputStrA.value.length;
+            }else if(stringB.checked){
+                result.innerHTML = inputStrB.value.length;
+            }
+        }
+        function buttonB(){//当前选中输入中的第3个字符
+            if(stringA.checked){
+                result.innerHTML = inputStrA.value.split('')[2];
+            }else if(stringB.checked){
+                result.innerHTML = inputStrB.value.split('')[2];
+            }
+        }
+        function buttonC(){//把两个输入框的文字连接在一起输出
+            result.innerHTML = inputStrA.value+inputStrB.value;
+        }
+        function buttonD(){//输入B中的内容，在输入A的内容中第一次出现的位置（indexOf）
+            result.innerHTML = inputStrA.value.indexOf(inputStrB.value);
+        }
+        function buttonE(){//输入A中的内容，在输入B的内容中第一次出现的位置（indexOf）
+            result.innerHTML = inputStrB.value.indexOf(inputStrA.value);
+        }
+        function buttonF(){//使用slice获取选中输入框内容的部分内容，参数为num-a及num-b
+            if(stringA.checked){
+                result.innerHTML = inputStrA.value.slice(Number(numA.value),Number(numB.value));
+            }else if(stringB.checked){
+                result.innerHTML = inputStrB.value.slice(Number(numA.value),Number(numB.value));
+            }
+        }
+        function buttonG(){//当前选中输入框的行数
+            if(stringA.checked){
+                result.innerHTML = inputStrA.value.match('/\n|\r/g').length;
+            }else if(stringB.checked){
+                result.innerHTML = inputStrB.value.split('/\r*\n/').length;
+            }//搞不定，自动换行怎么识别？
+        }
+        function buttonH(){//使用substr获取选中输入框内容的子字符串，参数为num-a及num-b
+            if(stringA.checked){
+                result.innerHTML = inputStrA.value.substr(Number(numA.value),Number(numB.value));
+            }else if(stringB.checked){
+                result.innerHTML = inputStrB.value.substr(Number(numA.value),Number(numB.value));
+            }
+        }
+        function buttonI(){//把所选输入框中的内容全部转为大写
+            if(stringA.checked){
+                result.innerHTML = inputStrA.value.toUpperCase();
+            }else if(stringB.checked){
+                result.innerHTML = inputStrB.value.toUpperCase();
+            }
+        }
+        function buttonJ(){//把所选输入框中的内容全部转为小写
+            if(stringA.checked){
+                result.innerHTML = inputStrA.value.toLowerCase();
+            }else if(stringB.checked){
+                result.innerHTML = inputStrB.value.toLowerCase();
+            }
+        }
+        
+        function buttonK(){//把所选输入框中内容的半角空格全部去除
+            if(stringA.checked){
+                result.innerHTML = inputStrA.value.split(' ').join('');
+            }else if(stringB.checked){
+                result.innerHTML = inputStrB.value.split(' ').join('');
+            }
+        }
+
+        //用正则表达式的方法
+        /*function buttonL(){//把所选输入框中内容的a全部替换成另外一个输入框中的内容
+            if(stringA.checked){
+                result.innerHTML = inputStrA.value.replace(/a/g,inputStrB.value);
+            }else if(stringB.checked){
+                result.innerHTML = inputStrB.value.replace(/a/g,inputStrA.value);
+            }
+        }*/
+        
+        //不用正则表达式的方法
+        
+        function replaceStr(str,strA,strB){
+            let array = str.split('');
+            let newArray = new Array();
+            for(let i=0; i < array.length; i++){
+                if(array[i] === strA){
+                    newArray[i] = strB;
+                }else{
+                    newArray[i] = array[i];
+                }
+            }
+            return newArray.join('');
+        }
+        function buttonL(){//把所选输入框中内容的a全部替换成另外一个输入框中的内容
+            if(stringA.checked){
+                result.innerHTML = replaceStr(inputStrA.value,'a',inputStrB.value);
+            }else if(stringB.checked){
+                result.innerHTML = replaceStr(inputStrB.value,'a',inputStrA.value);
+            }
+        }
+    </script>
+</body>
+</html>

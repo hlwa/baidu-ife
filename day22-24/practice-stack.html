@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<input id="stack-input" type="text">
+<p id="stack-cont">栈内容：apple-&gt;pear</p>    
+<button id="push-btn">进栈</button>
+<button id="pop-btn">退栈</button>
+<button id="font-btn">打印栈顶元素内容</button>
+<button id="empty-btn">判断栈是否为空</button>
+
+<script>
+
+var stack = ["apple", "pear"];
+let stackNum = 8;
+let stackCont = document.querySelector('#stack-cont');
+let input = document.querySelector('#stack-input');
+let pushBtn = document.querySelector('#push-btn');
+let popBtn = document.querySelector('#pop-btn');
+let fontBtn = document.querySelector('#font-btn');
+let emptyBtn = document.querySelector('#empty-btn');
+
+pushBtn.onclick = function(){
+    if(stack.length < stackNum){
+        stack.push(input.value);
+    }else{
+        stack.pop();
+        stack.push(input.value);
+    }
+    stackCont.innerHTML = '栈内容：'+ stack.join('-&gt');
+}
+popBtn.onclick = function(){
+    stack.pop();
+    stackCont.innerHTML = '栈内容：'+ stack.join('-&gt');
+}
+fontBtn.onclick = function(){
+    alert("The head is :"+stack[stack.length-1])
+}
+emptyBtn.onclick = function(){
+    if(stack.length===0){
+        alert("The stack is empty.")
+    }else{
+        alert("The stack is not empty.")
+    }
+}
+
+/*
+实现如阅读材料中，队列的相关进栈、退栈、获取栈顶、判空的操作
+栈顶对应数组中最后一个元素
+进栈和退栈操作后，需要在 id 为 stack-cont 的 p 标签中更新显示栈中的内容，栈顶在最右侧，中间用 -> 连接
+（练习使用数组的join方法）
+*/
+</script>
+</body>
+</html>
