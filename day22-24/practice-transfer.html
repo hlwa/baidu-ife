@@ -51,42 +51,20 @@ var menuArr = [
     [8, "Area2-2-1", 6],
 ];
 //如上有一个用来存储多级菜单数据的数组，编写一个函数，将其转为如下的对象
-
-         var menuObject = {};
-         menuArr.forEach((current) => {
-             if (current[2] == -1) {
-                 menuObject[current[0]] = {
-                     "name": current[1],
-                     "subMenu": {}
-                 }
+function get(num) {
+        let obj = {};
+        for(let i in menuArr){
+            if(menuArr[i][2] == num){
+                obj[menuArr[i][0]] = {
+                    "name" : menuArr[i][1],
+                    //以数组序列号作为递归条件
+                    "subMenu" : get(menuArr[i][0])
+                };
             }
-             if (current[2] == 1) {
-                 menuObject["1"]["subMenu"][current[0]] = {
-                     "name": current[1],
-                     "subMenu": {}
-                 }
-             }
-             if (current[2] == 2) {
-                 menuObject["2"]["subMenu"][current[0]] = {
-                     "name": current[1],
-                    "subMenu": {}
-                 }
-             }
-             if (current[2] == 4) {
-                 menuObject["1"]["subMenu"]["4"]["subMenu"][current[0]] = {
-                     "name": current[1],
-                     "subMenu": {}
-                 }
-             }
-             if (current[2] == 6) {
-                 menuObject["2"][ "subMenu"]["6"]["subMenu"][current[0]] = {
-                     "name": current[1],
-                     "subMenu": {}
-                 }
-             }
-         })
-         console.log(menuObject);
-
+        }
+        return obj;
+    }
+    console.log(get(-1));
     </script>
 </body>
 </html>
