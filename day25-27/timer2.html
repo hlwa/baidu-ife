@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p id='time'>
+
+    </p>
+    <script>
+        let time = document.querySelector('#time');
+        
+        /*
+同时在页面上，输出两种格式的日期时间
+        */
+        //1.封装一个函数，来根据某个日期返回这一天是星期几
+        function weekDay(date){
+            let array = [];
+            array[0] = '星期日';
+            array[1] = '星期一';
+            array[2] = '星期二';
+            array[3] = '星期三';
+            array[4] = '星期四';
+            array[5] = '星期五';
+            array[6] = '星期六';
+            return array[date.getDay()];
+        }
+        function weekDayOne(date){//另外一种格式
+            let array = [];
+            array[0] = 'Sunday';
+            array[1] = 'Monday';
+            array[2] = 'Tuesday';
+            array[3] = 'Wensday';
+            array[4] = 'Thursday';
+            array[5] = 'Friday';
+            array[6] = 'Saturday';
+            return array[date.getDay()];
+        }
+        //2.封装一个函数，把月、日、小时等出现个位数的情况前面补充0，补充为两位，比如1变为01
+        function addZero(num){
+            if(num <10 && num>=0){
+                num = '0' + num;
+            }
+            return num;
+        }
+        //3.封装一个函数，如果是上午，显示am，如果是下午显示pm
+        function amPm(date){
+            let dt = new Date();
+            if(dt.getHours<12){
+                date = date + 'AM'
+            }else{
+                date = date + "PM"
+            }
+            return date;
+        }
+        //4.封装一个函数，把最后的日期时间，按照要求的格式进行包装
+        function dateDone(){
+            let date = new Date();
+            let year = date.getFullYear();
+            let month = addZero(date.getMonth()+1);
+            let day = addZero(date.getDate());
+            let week = weekDay(date);
+            let weekOne = weekDayOne(date);
+            let hour = addZero(date.getHours());
+            let minute = addZero(date.getMinutes());
+            let second = addZero(date.getSeconds());
+            let dateDone = year +'年'+month+'月'+day+'日'+week+' '+hour+':'+minute+':'+second;
+            let dateDoneOne = year +'-'+month+'-'+day+' '+weekOne+' '+hour+':'+minute+':'+second+' ';
+            time.innerHTML =  dateDone +'    /      '+amPm(dateDoneOne);
+        }
+       
+       
+        setInterval(dateDone, 1000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p id='time'>
+
+    </p>
+    <script>
+        let time = document.querySelector('#time');
+        
+        /*
+在页面中显示当前日期及时间，按秒更新
+格式为 输出格式变为：2008-10-10 Monday 07:10:30 PM
+编码过程中，我们希望你注意对函数的封装，尽量让一个函数就做一个事情，而不要把所有的功能、代码揉在一起：
+        */
+        //1.封装一个函数，来根据某个日期返回这一天是星期几
+        function weekDay(date){
+            let array = [];
+            array[0] = 'Sunday';
+            array[1] = 'Monday';
+            array[2] = 'Tuesday';
+            array[3] = 'Wensday';
+            array[4] = 'Thursday';
+            array[5] = 'Friday';
+            array[6] = 'Saturday';
+            return array[date.getDay()];
+        }
+        //2.封装一个函数，把月、日、小时等出现个位数的情况前面补充0，补充为两位，比如1变为01
+        function addZero(num){
+            if(num <10 && num>=0){
+                num = '0' + num;
+            }
+            return num;
+        }
+        //3.封装一个函数，如果是上午，显示am，如果是下午显示pm
+        function amPm(date){
+            let dt = new Date();
+            if(dt.getHours<12){
+                date = date + 'AM'
+            }else{
+                date = date + "PM"
+            }
+            return date;
+        }
+        //4.封装一个函数，把最后的日期时间，按照要求的格式进行包装
+        function dateDone(){
+            let date = new Date();
+            let year = date.getFullYear();
+            let month = addZero(date.getMonth()+1);
+            let day = addZero(date.getDate());
+            let week = weekDay(date);
+            let hour = addZero(date.getHours());
+            let minute = addZero(date.getMinutes());
+            let second = addZero(date.getSeconds());
+            let dateDone = year +'-'+month+'-'+day+' '+week+' '+hour+':'+minute+':'+second+' ';
+            time.innerHTML =  amPm(dateDone);
+        }
+        //4.可能不止上面这些，尽可能地进行功能的解耦和拆解
+       
+        setInterval(dateDone, 1000);
+    </script>
+</body>
+</html>
