@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>js实现点击div改变背景颜色</title>
+    <style>
+        div{
+            background: red;
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+<div></div>
+
+</body>
+<script type="text/javascript">
+ var div=document.getElementsByTagName("div")[0];/*通过标签名div组*/
+ var count=0;/*计数，从0开始，每点击一下加一*/
+ div.onclick = function () { /*给div绑定点击函数*/
+     count ++;
+     /*判断点击的次数，来改变背景颜色*/
+     if(count % 3==1){
+         this.style.background="yellow"
+     }else if(count % 3==0){
+         this.style.background="red"
+     }else {
+         this.style.backgroundColor="#ff9000"
+     }
+
+ }
+
+</script>
+</html>

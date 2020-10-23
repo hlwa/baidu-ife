@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #email-sug-wrapper{
+            padding-left: 0;
+            margin:3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <input id="email-input" type="text">
+        <ul id="email-sug-wrapper" class="email-sug">
+        </ul>
+    </div>
+    <script>
+        // 邮箱后缀List参考      
+        var postfixList = ['163.com', 'gmail.com', '126.com', 'qq.com', '263.net'];
+        let emailInput = document.querySelector('#email-input');
+        /*用浏览器内部转换器实现html转码*/
+        function htmlEncode(html){
+            //1.首先动态创建一个容器标签元素，如DIV
+            var temp = document.createElement ("div");
+            //2.然后将要转换的字符串设置为这个元素的innerText(ie支持)或者textContent(火狐，google支持)
+            (temp.textContent != undefined ) ? (temp.textContent = html) : (temp.innerText = html);
+            //3.最后返回这个元素的innerHTML，即得到经过HTML编码转换的字符串了
+            var output = temp.innerHTML;
+            temp = null;
+            return output;
+        }
+        /*用浏览器内部转换器实现html解码*/
+        function htmlDecode(text){
+            //1.首先动态创建一个容器标签元素，如DIV
+            var temp = document.createElement("div");
+            //2.然后将要转换的字符串设置为这个元素的innerHTML(ie，火狐，google都支持)
+            temp.innerHTML = text;
+            //3.最后返回这个元素的innerText(ie支持)或者textContent(火狐，google支持)，即得到经过HTML解码的字符串了。
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        }
+        function inputGet(){//本函数获取输入框内容
+            //拿到input输入框的输入内容
+            let emailInput = document.querySelector('#email-input');
+            return emailInput.value.trim()//trim后返回
+        }
+        
+        function createContent(){//本行书生成提示内容
+            //用来拼接的用户输入内容 = 获取用户输入
+            let inputContent = htmlEncode(inputGet()),listContent = [],headContent,tailContent;          
+            if(inputContent.match('@')!=null){//用户输入含有@
+                headContent = inputContent.split('@')[0];//用来拼接的用户输入内容 = @之前的字符串
+                tailContent = inputContent.split('@')[1];//用来前缀匹配的用户输入内容 = @之后的字符串
+            }else{//用户输入不含有@
+                headContent = inputContent;
+                tailContent = false;
+            }
+            if(tailContent){
+                for(let i = 0; i < postfixList.length; i++){ //遍历postfixList
+                    if(postfixList[i].match(tailContent)!=null){//用来前缀匹配的用户输入内容前缀匹配遍历字符串元素
+                        listContent[i] = headContent + '@' +postfixList[i];//把用来拼接的用户输入内容和这个字符串进行结合成为一个Li
+                    }              
+                }
+            }else{
+                for(let i = 0; i < postfixList.length; i++){ //遍历postfixList
+                    listContent[i] = headContent + '@' +postfixList[i];
+                }
+            }           
+            
+            return listContent;//返回生成的提示内容
+        }
+        //本函数清除冗余list
+        function clearWrapper(){//清除所有的list
+            let thisList = document.querySelectorAll("li");
+            let emailWrapper = document.querySelector("#email-sug-wrapper");
+            for(let i =0; i < thisList.length; i++){//如果输入框为空，则thisList.length = 0,本段for循环不执行
+                emailWrapper.removeChild(thisList[i]); 
+            }           
+        }
+        //本函数将提示内容添加到wrapper中
+        function addToWrapper(){//将提示内容添加到email-sug-wrapper中
+            //获取生成提示框中的提示内容
+            let thisContent = createContent()
+            let emailWrapper = document.querySelector("#email-sug-wrapper");
+            for(i in thisContent){
+                let thisList = [];
+                thisList[i] = document.createElement('li');
+                thisList[i].style.listStyleType = 'none';//清除list默认的黑点
+                thisList[i].style.paddingLeft = '2px';//设置list左padding等于输入框的左padding
+                thisList[i].style.width = '175px';//设置list宽度，等于输入框的宽度
+                thisList[i].innerHTML = htmlDecode(thisContent[i]);//用createTextNode更好？
+                emailWrapper.appendChild(thisList[i])//将内容添加到email-sug-wrapper中
+            }
+        }
+
+        //本函数实现客户输入为空时，删除所有list
+        function onOff(){
+            let inputContent = document.querySelector('#email-input');
+            if(inputContent.value == ''){
+                clearWrapper();
+            }
+        }
+        //本函数实现隐藏提示框
+        function offWrapper(){
+            let thisList = document.querySelectorAll("li");
+            for(let i =0; i < thisList.length; i++){
+                thisList[i].style.visibility = 'hidden';
+            }
+        }
+        //本函数实现显示提示框
+        function onWrapper(){
+            let thisList = document.querySelectorAll("li");
+            for(let i =0; i < thisList.length; i++){
+                thisList[i].style.visibility = 'visible';
+            }
+        }
+        //本函数定义鼠标和提示框的互动事件，使用CSS实现
+        function mouseTip(){
+            let thisList = document.querySelectorAll("li");
+            let chosenli = document.querySelector('#chosen');
+            for(i in thisList){
+                //鼠标悬停触发背景色变化事件
+                thisList[i].onmouseover = function(){this.style.backgroundColor = 'pink';}
+                //鼠标移出触发背景色去除事件
+                thisList[i].onmouseout = function(){
+                    this.style.backgroundColor = 'white';//将鼠标移出的list的背景色还原为白色
+                    chosenColor();//    鼠标移出后，被选中的list还原为蓝色                
+                }
+                //鼠标点击触发复制提示内容进输入框同时提示框消失事件
+                thisList[i].onclick = function() {
+                    emailInput.value = this.innerHTML;//复制提示内容进输入框
+                    clearWrapper();//提示内容消失
+                }
+            }
+        }
+        //重置选中状态函数 
+        function resetChosen(){      
+            //找到当前为选中状态的Li
+            let chosenLi = document.querySelector("#chosen");
+            let allLi = document.querySelectorAll('li');
+            if(chosenLi == null&&allLi.length!=0){//如果没有被选中的list，
+                allLi[0].setAttribute("id", "chosen");//设置第一个Li为选中状态
+            }else if(chosenLi != null&&chosenLi != allLi[0]){//如果有被选中的list，且当前选中状态Li不是第一个
+                chosenLi.removeAttribute('id'); //清除掉它的选中状态
+                allLi[0].setAttribute("id", "chosen");//设置第一个Li为选中状态    
+            }            
+        }
+        //本函数将被选中的list设置为蓝色
+        function chosenColor(){
+            let chosenli = document.querySelector('#chosen');
+            if(chosenli!=null){//存在被选中的list
+                chosenli.style.backgroundColor = 'blue';
+            }
+        }
+        
+        // 监听特殊3个键的键盘事件
+        function keyEvent(event){//去掉曾经被选中的颜色
+            let e= event || window.event;
+            //找到当前为选中状态的Li
+            let chosenLi = document.querySelector("#chosen");
+            let allLi = document.querySelectorAll('li');
+            //清除掉它的选中状态
+            if(e.keyCode == 38||e.keyCode == 40||e.keyCode == 13){
+                if(chosenLi!=null){////当前有选中的list
+                    //清除选中状态
+                    chosenLi.removeAttribute('id');
+                    //还需要去掉背景颜色
+                    chosenLi.style.backgroundColor = 'white';
+                     //如果按的是上键                    
+                    if(e.keyCode == 38){
+                        if(chosenLi != allLi[0]){// 找到的Li不是第一个 
+                            //将它的前一个Li设为选中
+                            chosenLi.previousSibling.setAttribute("id", "chosen");
+                        } else {
+                            //将最后一个Li设为选中
+                            allLi[allLi.length-1].setAttribute("id", "chosen");
+                        }
+                        //被选中的list为蓝色
+                        chosenColor()
+                        //控制email-sug-wrapper的显示/隐藏状态
+                        onOff()
+                        //鼠标和提示框的互动事件
+                        mouseTip() 
+                        //在上个步骤结束后，在输入框中任意再输入字符或删除字符，则重新开始出现提示框  
+                    }
+                    //按的是下键
+                    if(e.keyCode == 40){
+                        if(chosenLi != allLi[allLi.length-1]){// 找到的Li不是最后一个 
+                            //将它的下一个Li设为选中
+                            chosenLi.nextSibling.setAttribute("id", "chosen");
+                        } else {
+                            //将第一个Li设为选中
+                            allLi[0].setAttribute("id", "chosen");
+                        }
+                        //被选中的list为蓝色
+                        chosenColor()
+                        //鼠标和提示框的互动事件
+                        mouseTip() 
+                    }
+                    //按的是回车 
+                    if (e.keyCode == 13){
+                        //将找到的Li的HTML内容解码后填到input中
+                        emailInput.value = htmlDecode(chosenLi.innerHTML);
+                        //隐藏提示框
+                        offWrapper();
+                    }              
+                }                                            
+            }           
+        }
+        //按键不是上下及回车的行为函数
+        function inputEvent(event){
+            let e= event || window.event;
+            //清除list
+            clearWrapper();
+            //获取用户输入，生成提示框中的提示内容，将提示内容添加到email-sug-wrapper中
+            addToWrapper();
+            //如果按键不是上下及回车重置选中状态()
+            if(e && e.keyCode != 38&&e.keyCode != 40&&e.keyCode != 13){//按键不是上下及回车
+                resetChosen();//执行重置选中状态函数，将第一个list设置为被选中
+            };         
+            //被选中的list为蓝色
+            chosenColor();
+            //显示提示框list
+            onWrapper();
+            //鼠标和提示框的互动事件
+            mouseTip();
+            //在上个步骤结束后，在输入框中任意再输入字符或删除字符，则重新开始出现提示框
+            onOff()      
+        }
+        emailInput.addEventListener('input',function(){inputEvent(event)},false);
+        emailInput.addEventListener('keydown',function(){keyEvent(event)},false);
+
+    </script>
+</body>
+</html>
